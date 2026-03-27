@@ -34,7 +34,7 @@
 #pragma semicolon 1
 
 #include <sourcemod>
-#include <colorlib>
+#include <multicolors>
 
 #pragma newdecls required
 
@@ -83,7 +83,6 @@ public Action OnClientSayCommand(int client, const char[] command, const char[] 
     if (sArgs[startidx] != CHAT_SYMBOL || !admin) {
         char message[256];
         strcopy(message, sizeof(message), sArgs[startidx]);
-        CRemoveAllColors(message, sizeof(message));
         if (admin && !team) {
             // sm_say alias
             SendChatToAll(client, message);
@@ -119,7 +118,6 @@ public Action OnClientSayCommand(int client, const char[] command, const char[] 
 
         char message[256];
         strcopy(message, sizeof(message), sArgs[startidx + len]);
-        CRemoveAllColors(message, sizeof(message));
 
         SendPrivateChat(client, target, message);
         return Plugin_Stop;
@@ -144,7 +142,6 @@ public Action Command_SmSay(int client, int args) {
 
     char text[192];
     GetCmdArgString(text, sizeof(text));
-    CRemoveAllColors(text, sizeof(text));
 
     SendChatToAll(client, text);
     LogAction(client, -1, "\"%L\" triggered sm_say (text %s)", client, text);
@@ -200,7 +197,6 @@ public Action Command_SmChat(int client, int args) {
 
     char text[192];
     GetCmdArgString(text, sizeof(text));
-    CRemoveAllColors(text, sizeof(text));
 
     SendChatToAdmins(client, text);
     LogAction(client, -1, "\"%L\" triggered sm_chat (text %s)", client, text);
@@ -232,7 +228,6 @@ public Action Command_SmPsay(int client, int args) {
     if (target == -1)
         return Plugin_Handled;
 
-    CRemoveAllColors(text, sizeof(text));
     SendPrivateChat(client, target, text[len]);
 
     return Plugin_Handled;
